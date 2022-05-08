@@ -1,3 +1,10 @@
 function hideSelf() {
-  // ваш код...
+  document.addEventListener('click', (el)=>{
+
+    let hideBtn = el.target
+    if (hideBtn.classList.contains('hide-self-button')){
+      hideBtn.setAttribute('hidden',true)
+    }
+
+  })
 }
