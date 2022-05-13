@@ -64,7 +64,7 @@ function listener (element) {
       let widthCurr = carousel__inner.offsetWidth
       arrow==stepR ? position+=widthCurr : position-=widthCurr
       carousel__inner.style.transform = `translateX(-${position}px)`
-      checkArrow(arrow,widthCurr)
+      checkArrow(widthCurr)
     })
   });
 
