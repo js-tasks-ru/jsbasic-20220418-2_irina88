@@ -2,15 +2,15 @@ let calculator = {
   A: null,
   B: null,
 
-  read(a,b) {
-    this.A = a
-    this.B = b
+  read(a, b) {
+    this.A = a;
+    this.B = b;
   },
   sum() {
-    return this.A+this.B
+    return this.A + this.B;
   },
   mul() {
-    return this.A*this.B
+    return this.A * this.B;
   }
 };
 

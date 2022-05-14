@@ -11,14 +11,14 @@ function print(text) {
  */
 //имя не пустое, без пробелов, минимум 4 символа.
 function isValid(name) {
-  if (name&&name.length>=4&&checkSpace(name)) {
-    return true
-  } return false
+  if (name && name.length >= 4 && checkSpace(name)) {
+    return true;
+  } return false;
 }
-function checkSpace(name){
+function checkSpace(name) {
   if (~name.indexOf(' ')) {
-    return false
-  } return true
+    return false;
+  } return true;
 
 }
 

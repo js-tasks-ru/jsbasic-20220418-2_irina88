@@ -14,11 +14,11 @@
  */
 export default class UserTable {
   constructor(rows) { 
-    this.elem = this.createTable(rows)
+    this.elem = this.createTable(rows);
   }
 
   createTable(rows) {
-    let mainTable = document.createElement('table')
+    let mainTable = document.createElement('table');
     mainTable.innerHTML = `
     <thead>
         <tr>
@@ -29,21 +29,21 @@ export default class UserTable {
           <th></th>
         </tr>
       </thead>
-    `
-    let elTbody = document.createElement('tbody')
+    `;
+    let elTbody = document.createElement('tbody');
     rows.forEach(person => {
-      elTbody.innerHTML+=this.returnRow(person)
+      elTbody.innerHTML += this.returnRow(person);
     });
 
-    mainTable.append(elTbody)
+    mainTable.append(elTbody);
 
     mainTable.addEventListener('click', (el)=>{
-      if (el.target.classList=='btn') {
-        this.deleteRow(el.target)
+      if (el.target.classList == 'btn') {
+        this.deleteRow(el.target);
       }
-    })
+    });
 
-    return mainTable
+    return mainTable;
   }
 
   returnRow(person) {
@@ -55,10 +55,10 @@ export default class UserTable {
           <th>${person.city}</th>
           <th><button class='btn'>X</button></th>
         </tr>
-    `
+    `;
   }
 
   deleteRow(el) {
-    el.parentElement.parentElement.remove()
+    el.parentElement.parentElement.remove();
   }
 }
