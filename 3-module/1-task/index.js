@@ -1,3 +1,3 @@
 function namify(users) {
-  return users.map(({name})=>name)
+  return users.map(({name})=>name);
 }
