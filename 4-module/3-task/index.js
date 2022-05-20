@@ -26,17 +26,17 @@ function highlight(table) {
     let statusCell = currentRow.cells[statusCellIndex];
 
     if (statusCell.dataset.available) {
-      statusCell.dataset.available == 'true'
-        ? currentRow.classList.add('available') 
-        : currentRow.classList.add('unavailable'); 
+      if (statusCell.dataset.available == 'true')
+      {currentRow.classList.add('available'); }
+      else {currentRow.classList.add('unavailable'); }
     } else {
       table.rows[i].setAttribute('hidden', true);
     }
 
     let genderSCell = currentRow.cells[genderCellIndex];
-    genderSCell.textContent == 'm'
-      ? currentRow.classList.add('male') 
-      : currentRow.classList.add('female'); 
+    if (genderSCell.textContent == 'm')
+    {currentRow.classList.add('male');}
+    else {currentRow.classList.add('female'); }
     
     let ageCell = currentRow.cells[ageCellIndex];
     if (+ageCell.textContent < 18) {

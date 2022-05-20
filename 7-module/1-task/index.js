@@ -16,18 +16,15 @@ export default class RibbonMenu {
 function renderRibbonMenu(categories) {
   const ribbon = document.createElement('div');
   ribbon.classList.add('ribbon');
-  ribbon.append(renderArrow('ribbon__arrow_left'));
-  ribbon.append(renderInnerRibbon(categories));
-  ribbon.append(renderArrow('ribbon__arrow_right'));
+  ribbon.append(renderArrow('ribbon__arrow_left'), renderInnerRibbon(categories), renderArrow('ribbon__arrow_right'));
+  ribbon.querySelector('.ribbon__arrow_left').classList.remove('ribbon__arrow_visible');
   return ribbon;
 }
 
 //ribbon__arrow_visible
 function renderArrow(direction) {
   const arrow = document.createElement('button');
-  arrow.classList.add(`ribbon__arrow`);
-  arrow.classList.add(`${direction}`);
-  arrow.classList.add(`ribbon__arrow_visible`);
+  arrow.classList.add(`ribbon__arrow`, `${direction}`, `ribbon__arrow_visible`);
   arrow.innerHTML = `<img src="/assets/images/icons/angle-icon.svg" alt="icon">`;
   return arrow;
 }
@@ -52,7 +49,7 @@ function activeListener(element) {
 
   element.addEventListener(('click'), (event) => {
     event.preventDefault();
-    let ribbonItems = Array.from(element.querySelectorAll('.ribbon__item'));
+    let ribbonItems = element.querySelectorAll('.ribbon__item');
 
     ribbonItems.forEach(item => {
       item.classList.remove('ribbon__item_active');  
@@ -79,7 +76,7 @@ function scrollRibbon(element) {
 
   arrows.forEach(arrow => {
     arrow.addEventListener('click', () => {
-      if (arrow == stepRight) 
+      if (arrow === stepRight) 
       {ribbonInner.scrollBy(350, 0);}
       else {ribbonInner.scrollBy(-350, 0);}
       checkArrow();
@@ -93,13 +90,13 @@ function scrollRibbon(element) {
 
     let rightPosition = scrollWidth - scrollLeft - clientWidth; 
     let leftPosition = ribbonInner.scrollLeft;
+    console.log(leftPosition);
+    console.log(rightPosition);
     
-    if (leftPosition == 0)
-    {stepLeft.classList.remove('ribbon__arrow_visible');}
-    else {stepLeft.classList.add('ribbon__arrow_visible');}
+    if (Math.floor(leftPosition) === 0)
+    {stepLeft.classList.toggle('ribbon__arrow_visible');}
     
-    if (Math.floor(rightPosition) == 0)
-    {stepRight.classList.remove('ribbon__arrow_visible');}
-    else {stepRight.classList.add('ribbon__arrow_visible');}
+    if (Math.floor(rightPosition) === 0)
+    {stepRight.classList.toggle('ribbon__arrow_visible');}
   }
 }

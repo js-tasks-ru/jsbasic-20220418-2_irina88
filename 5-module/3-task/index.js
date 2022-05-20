@@ -20,12 +20,12 @@ function initCarousel() {
   });
   
   function checkArrow() {
-    position == (countFrames - 1) * widthCurr
-      ? stepR.style.display = 'none'
-      : stepR.style.display = '';
+    if (position === (countFrames - 1) * widthCurr)
+    {stepR.style.display = 'none';}
+    else {stepR.style.display = ''; }
   
-    position == 0
-      ? stepL.style.display = 'none'
-      : stepL.style.display = '';
+    if (position === 0)
+    {stepL.style.display = 'none';}
+    else {stepL.style.display = '';}
   }
 }

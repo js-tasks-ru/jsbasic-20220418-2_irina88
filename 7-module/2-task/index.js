@@ -1,52 +1,38 @@
 import createElement from '../../assets/lib/create-element.js';
 
 export default class Modal {
-  bodyElement = document.querySelector('body')
-  
+  bodyElement = document.body
+
   constructor() {
-    // this.open
-    // this.setTitle
-    // this.setBody
-    // this.close
+    this.modal = renderModalElement();
   }
+
   open() {
-    this.elem = renderModalElement(this.title, this.body)
-    this.bodyElement.append(this.elem)
-    this.bodyElement.classList.add('is-modal-open')
-    escapeModal(this.elem)
-
+    this.bodyElement.append(this.modal);
+    this.bodyElement.classList.add('is-modal-open');
+    escapeModal(this.modal);
   }
-  setTitle(title) {
-    this.title = title
-    // if (!this.modal) {
-    //   return
-    // }
-    // this.modal = renderModalElement(this.title,this.body)
 
+  setTitle(title) {
+    setTitleModal(title, this.modal);
   }
 
   setBody(node) {
-
-    this.body = node
-    // if (!this.modal) {
-    //   return
-    // }
-    // this.modal = renderModalElement(this.title,this.body)
+    setBodyModal(node, this.modal);
   }
 
   close() {
-    if (!this.elem) {
-      return
+    if (!this.modal) {
+      return;
     }
-    this.elem.remove()
+    this.modal.remove();
+    this.bodyElement.classList.remove('is-modal-open');
   }
 }
 
-function renderModalElement(title, textNode) {
-  // let container = document.createElement('div')
-  // container.classList.add('container')
-  let modalElement = document.createElement('div')
-  modalElement.classList.add('modal')
+function renderModalElement() {
+  let modalElement = document.createElement('div');
+  modalElement.classList.add('modal');
   modalElement.innerHTML = `
     <div class="modal__overlay"></div>
     <div class="modal__inner">
@@ -55,41 +41,46 @@ function renderModalElement(title, textNode) {
         <button type="button" class="modal__close">
           <img src="/assets/images/icons/cross-icon.svg" alt="close-icon" />
         </button>
-
         <h3 class="modal__title">
-          ${title}
         </h3>
       </div>
       <div class="modal__body">
-        ${textNode.innerHTML}
       </div>
     </div>
-  `
-  // container.append(modalElement)
-  return modalElement
+  `;
+  return modalElement;
+}
+
+function setTitleModal(title, modalElement) {
+  let titleField = modalElement.querySelector('.modal__title');
+  titleField.textContent = `${title}`;
+}
+
+function setBodyModal(body, modalElement) {
+  let titleField = modalElement.querySelector('.modal__body');
+  titleField.append(body);
 }
 
 const escapeModal = (modalElement) => {
   document.addEventListener('keydown', logKey);
-
-  let bodyElement = document.querySelector('body')
+  let bodyElement = document.body;
 
   function logKey(e) {
   
-    if (e.code=='Escape') {
-      bodyElement.classList.remove('is-modal-open')
-      modalElement.remove()
+    if (e.code == 'Escape') {
+      bodyElement.classList.remove('is-modal-open');
+      modalElement.remove();
     }
-    removeListener()
+    removeListener();
   } 
 
-  const deleteButton = modalElement.querySelector('.modal__close')
-  deleteButton.addEventListener('click', deleteModal)
+  const deleteButton = modalElement.querySelector('.modal__close');
+  deleteButton.addEventListener('click', deleteModal);
 
   function deleteModal() {
-      bodyElement.classList.remove('is-modal-open')
-      modalElement.remove()
-      removeListener()
+    bodyElement.classList.remove('is-modal-open');
+    modalElement.remove();
+    removeListener();
   }
 
   function removeListener() {
@@ -97,4 +88,4 @@ const escapeModal = (modalElement) => {
     document.removeEventListener('click', deleteModal);
   }
 
-}
+};
