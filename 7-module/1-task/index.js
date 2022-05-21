@@ -7,6 +7,7 @@ export default class RibbonMenu {
   }
   renderElem(categories) {
     this.elem = renderRibbonMenu(categories);
+    console.log(this.elem);
     eventListener(this.elem);
   }
 
@@ -23,19 +24,29 @@ function renderRibbonMenu(categories) {
 
 //ribbon__arrow_visible
 function renderArrow(direction) {
-  const arrow = document.createElement('button');
-  arrow.classList.add(`ribbon__arrow`, `${direction}`, `ribbon__arrow_visible`);
-  arrow.innerHTML = `<img src="/assets/images/icons/angle-icon.svg" alt="icon">`;
-  return arrow;
+  const button = createElement(`
+  <button class="ribbon__arrow ${direction} ribbon__arrow_visible">
+    <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+  </button>
+  `);
+  return button;
 }
 
 function renderInnerRibbon(categories) {
-  const ribbonInner = document.createElement('nav');
-  ribbonInner.classList.add(`ribbon__inner`);
 
-  categories.forEach(({id, name}) => {
-    ribbonInner.innerHTML += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
-  });
+  const ribbonInner = createElement(`
+  <nav class="ribbon__inner">
+  ${getLinks()}
+  </nav>
+  `);
+
+  function getLinks() {
+    let link = '';
+    categories.forEach(({id, name}) => {
+      link += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
+    });
+    return link;
+  }
 
   return ribbonInner;
 }
@@ -57,9 +68,9 @@ function activeListener(element) {
 
     if (event.target.classList.contains('ribbon__item')) {
       event.target.classList.toggle('ribbon__item_active');
-      const selectedType = new CustomEvent('ribbon-select', { // имя события должно быть именно 'ribbon-select'
-        detail: event.target.dataset.id, // уникальный идентификатора категории из её объекта
-        bubbles: true // это событие всплывает - это понадобится в дальнейшем
+      const selectedType = new CustomEvent('ribbon-select', {
+        detail: event.target.dataset.id, 
+        bubbles: true 
       });
       element.dispatchEvent(selectedType);
     }

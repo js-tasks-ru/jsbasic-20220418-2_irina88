@@ -47,15 +47,10 @@ function changeValueOfSlider(element) {
     arraySlides.forEach(span => {
       span.classList.remove('slider__step-active');
     });
-    let { left: leftCoord, width: widthSlider } = element.getBoundingClientRect();
-    let relativeX = clientX - leftCoord;
-    let leftRelative = relativeX / widthSlider;
-    
-    numberActiveSLide = Math.round(leftRelative * countSegments); 
+    numberActiveSLide = Math.round(getNumberSLide(clientX));
     let percents = numberActiveSLide / countSegments * 100;
 
-    thumb.style.left = `${percents}%`;
-    progress.style.width = `${percents}%`;
+    setCoordinates(percents);
     renderNewSlidePosition(element, numberActiveSLide);
 
     element.dispatchEvent(new CustomEvent('slider-change', { 
@@ -66,17 +61,27 @@ function changeValueOfSlider(element) {
 
   element.addEventListener('click', changePosition);
 
+  function setCoordinates(percents) {
+    thumb.style.left = `${percents}%`;
+    progress.style.width = `${percents}%`;
+  }
+
+  function getNumberSLide(clientX) {
+    let { left: leftCoord, width: widthSlider } = element.getBoundingClientRect();
+    let relativeX = clientX - leftCoord;
+    let leftRelative = relativeX / widthSlider;
+    numberActiveSLide = leftRelative * countSegments; 
+    return numberActiveSLide;
+  }
 
   element.addEventListener('pointerdown', () => {
     let numberSlideElement = element.querySelector('.slider__value');
     const onMove = ({ clientX }) => {
-      
+      arraySlides.forEach(span => {
+        span.classList.remove('slider__step-active');
+      });
       element.classList.add('slider_dragging');
-      let { left: leftCoordMove, width: widthSliderMove } = element.getBoundingClientRect();
-      let relativeXMove = clientX - leftCoordMove;
-      let leftRelativeMove = relativeXMove / widthSliderMove;
-      numberActiveSLide = leftRelativeMove * countSegments; 
-  
+      numberActiveSLide = getNumberSLide(clientX);
       let percents = numberActiveSLide / countSegments * 100;
 
       if (numberActiveSLide >= 0 && numberActiveSLide <= 4)
@@ -87,13 +92,22 @@ function changeValueOfSlider(element) {
         numberSlideElement.innerHTML = Math.round(numberActiveSLide);
         thumb.style.left = `${percents}%`;
         progress.style.width = `${percents}%`;
+        renderNewSlidePosition(element, Math.round(numberActiveSLide));
       }
-
+      
     };
 
     document.addEventListener('pointermove', onMove);
   
-    document.addEventListener('pointerup', ({ target, clientX }) => {    
+    document.addEventListener('pointerup', ({ target, clientX }) => {   
+      let percents = Math.round(getNumberSLide(clientX)) / countSegments * 100;
+      
+      if (percents <= 100 && percents >= 0) 
+      {
+        setCoordinates(percents);
+        renderNewSlidePosition(element, Math.round(getNumberSLide(clientX)));
+      }
+      
       element.dispatchEvent(new CustomEvent('slider-change', { 
         detail: Math.round(numberActiveSLide), 
         bubbles: true 
@@ -110,8 +124,6 @@ function renderNewSlidePosition(element, numberActiveSLide) {
   let slides = element.querySelector('.slider__steps').querySelectorAll('span');
   let activeSlide = slides[numberActiveSLide];
   activeSlide.classList.add('slider__step-active');
-  activeSlide.classList.add('slider__step-active');
-
   let numberSlideElement = element.querySelector('.slider__value');
   numberSlideElement.innerHTML = numberActiveSLide;
 }
