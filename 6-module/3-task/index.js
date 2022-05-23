@@ -26,9 +26,9 @@ const renderCarousel = (slides) => {
     <img src="/assets/images/icons/angle-left-icon.svg" alt="icon">
   </div>
   `;
-  let carousel__inner = document.createElement('div');
-  carousel__inner.classList.add('carousel__inner');
-  carousel__inner.dataset.position = 0;
+  let carouselInner = document.createElement('div');
+  carouselInner.classList.add('carousel__inner');
+  carouselInner.dataset.position = 0;
 
   for (let i = 0; i < slides.length; i++) {
     let slide = document.createElement('div'); 
@@ -45,9 +45,9 @@ const renderCarousel = (slides) => {
         </button>
       </div>
     `;
-    carousel__inner.append(slide);
+    carouselInner.append(slide);
   }
-  carousel.append(carousel__inner);
+  carousel.append(carouselInner);
   
   return carousel;
 };
@@ -64,15 +64,18 @@ function listener (element) {
 
   arrows.forEach(arrow => {
     arrow.addEventListener('click', (el)=>{
-      let carousel__inner = element.querySelector('.carousel__inner');
-      let position = +carousel__inner.dataset.position;
-      let widthCurr = carousel__inner.offsetWidth;
+      let carouselInner = element.querySelector('.carousel__inner');
+      let position = +carouselInner.dataset.position;
+      let widthCurr = carouselInner.offsetWidth;
       
-      arrow == stepR ? position += widthCurr : position -= widthCurr;
+      if (arrow === stepR) 
+      { position += widthCurr; }
+      else 
+      { position -= widthCurr; }
+      
+      carouselInner.dataset.position = position;
 
-      carousel__inner.dataset.position = position;
-
-      carousel__inner.style.transform = `translateX(-${position}px)`;
+      carouselInner.style.transform = `translateX(-${position}px)`;
       checkArrow(widthCurr, position);
     });
   });
@@ -90,13 +93,13 @@ function listener (element) {
   });
   
   function checkArrow(widthCurr, position) {
-    position == (countFrames - 1) * widthCurr
-      ? stepR.style.display = 'none'
-      : stepR.style.display = '';
+    if (position === (countFrames - 1) * widthCurr)
+    {stepR.style.display = 'none';}
+    else {stepR.style.display = '';}
 
-    position == 0
-      ? stepL.style.display = 'none'
-      : stepL.style.display = '';
+    if (position === 0)
+    {stepL.style.display = 'none';}
+    else {stepL.style.display = '';}
   }
 }
 

@@ -49,6 +49,7 @@ describe('7-module-2-task', () => {
       let titleElement = document.querySelector('.modal__title');
 
       expect(titleElement.textContent.trim()).toBe(title);
+      console.log(title);
 
       modal.close();
     });
