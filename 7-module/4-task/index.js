@@ -1,30 +1,37 @@
 export default class StepSlider {
-  constructor({ steps }) {
-    this.elem = renderStepSlider(steps);
+  constructor({ steps, value = 3}) {
+    this.elem = renderStepSlider(steps, value);
     changeValueOfSlider(this.elem);
-    //changeOfDragAndDrop(this.elem)
   }
 }
 
-function renderStepSlider(steps) {
+function renderStepSlider(steps, value) {
   const slider = document.createElement('div');
   slider.classList.add('slider');
   slider.innerHTML = `
     <div class="slider__thumb" style="left: 50%;">
-      <span class="slider__value">0</span>
+      <span class="slider__value">${value}</span>
     </div>
     <div class="slider__progress" style="width: 50%;"></div>
     <div class="slider__steps">
-      ${renderSteps(steps)}
+      ${renderSteps(steps, value)}
     </div>
   `;
+  let thumb = slider.querySelector('.slider__thumb');
+  let progress = slider.querySelector('.slider__progress');
+  progress.style.width = `${value / (steps - 1) * 100}%`;
+  thumb.style.left = `${value / (steps - 1) * 100}%`;
   return slider;
 }
 
-function renderSteps(steps) {
-  let arraySteps = '<span class="slider__step-active"></span>';
-  for (let i = 1; i < steps; i += 1) {
-    arraySteps += '<span></span>';
+function renderSteps(steps, value) {
+  let arraySteps = '';
+  for (let i = 0; i < steps; i += 1) {
+    if (i === value) {
+      arraySteps += '<span class="slider__step-active"></span>';
+    } else {
+      arraySteps += '<span></span>';
+    }
   }
   
   return arraySteps;
@@ -38,8 +45,6 @@ function changeValueOfSlider(element) {
   let thumb = element.querySelector('.slider__thumb');
   thumb.ondragstart = () => false;
   let progress = element.querySelector('.slider__progress');
-  progress.style.width = `0%`;
-  thumb.style.left = `0%`;
   let numberActiveSLide = 0;
   let countSegments = countSlides - 1;
 

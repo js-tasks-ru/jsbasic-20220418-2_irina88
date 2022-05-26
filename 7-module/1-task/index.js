@@ -7,7 +7,6 @@ export default class RibbonMenu {
   }
   renderElem(categories) {
     this.elem = renderRibbonMenu(categories);
-    console.log(this.elem);
     eventListener(this.elem);
   }
 
@@ -43,7 +42,12 @@ function renderInnerRibbon(categories) {
   function getLinks() {
     let link = '';
     categories.forEach(({id, name}) => {
-      link += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
+      if (name === 'All') {
+        link += `<a href="#" class="ribbon__item ribbon__item_active" data-id=${id}>${name}</a>`;
+      } else {
+        link += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
+      }
+      
     });
     return link;
   }
