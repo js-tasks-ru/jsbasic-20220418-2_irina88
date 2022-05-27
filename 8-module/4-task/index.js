@@ -205,20 +205,10 @@ export default class Cart {
     const cartProducts = bodyModal.querySelectorAll('.cart-product');
     cartProducts.forEach((product) => {
       const productId = product.dataset.productId;
-      // const buttonElementPlus = product.querySelector(`cart-counter__button_plus`);
-      // const buttonElementMinus = product.querySelector(`cart-counter__button_plus`);
-      // buttonElementPlus.addEventListener('click', ({ target }) => {
-      //   this.updateProductCount(productId, 1);
-      // })
-      // buttonElementMinus.addEventListener('click', ({ target }) => {
-      //   this.updateProductCount(productId, -1);
-      // })
       product.addEventListener('click', ({ target }) => {
-        if (target.parentNode.classList.contains('cart-counter__button_minus') && target.tagName === 'IMG') {
+        if (target.closest('.cart-counter__button').classList.contains('cart-counter__button_minus')) {
           this.updateProductCount(productId, -1);
-        }
-
-        if (target.parentNode.classList.contains('cart-counter__button_plus') && target.tagName === 'IMG') {
+        } else {
           this.updateProductCount(productId, 1);
         }
       });

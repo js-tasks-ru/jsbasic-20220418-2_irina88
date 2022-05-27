@@ -4,6 +4,7 @@ export default class RibbonMenu {
   constructor(categories) {
     this.categories = categories;
     this.renderElem(this.categories);
+    this.value = '';
   }
   renderElem(categories) {
     this.elem = renderRibbonMenu(categories);
@@ -72,6 +73,7 @@ function activeListener(element) {
 
     if (event.target.classList.contains('ribbon__item')) {
       event.target.classList.toggle('ribbon__item_active');
+      //this.value = event.target.dataset.id
       const selectedType = new CustomEvent('ribbon-select', {
         detail: event.target.dataset.id, 
         bubbles: true 

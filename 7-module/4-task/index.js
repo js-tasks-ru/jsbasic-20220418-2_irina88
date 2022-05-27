@@ -2,6 +2,7 @@ export default class StepSlider {
   constructor({ steps, value = 3}) {
     this.elem = renderStepSlider(steps, value);
     changeValueOfSlider(this.elem);
+    this.value = value;
   }
 }
 
