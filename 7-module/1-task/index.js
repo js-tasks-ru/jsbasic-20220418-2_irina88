@@ -4,10 +4,10 @@ export default class RibbonMenu {
   constructor(categories) {
     this.categories = categories;
     this.renderElem(this.categories);
+    this.value = '';
   }
   renderElem(categories) {
     this.elem = renderRibbonMenu(categories);
-    console.log(this.elem);
     eventListener(this.elem);
   }
 
@@ -43,7 +43,12 @@ function renderInnerRibbon(categories) {
   function getLinks() {
     let link = '';
     categories.forEach(({id, name}) => {
-      link += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
+      if (name === 'All') {
+        link += `<a href="#" class="ribbon__item ribbon__item_active" data-id=${id}>${name}</a>`;
+      } else {
+        link += `<a href="#" class="ribbon__item" data-id=${id}>${name}</a>`;
+      }
+      
     });
     return link;
   }
@@ -68,6 +73,7 @@ function activeListener(element) {
 
     if (event.target.classList.contains('ribbon__item')) {
       event.target.classList.toggle('ribbon__item_active');
+      //this.value = event.target.dataset.id
       const selectedType = new CustomEvent('ribbon-select', {
         detail: event.target.dataset.id, 
         bubbles: true 
